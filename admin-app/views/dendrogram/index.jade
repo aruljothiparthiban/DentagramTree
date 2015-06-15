@@ -4,7 +4,7 @@ block content
 	div(id="tree-container").col
 
 	div(style="width:200px;").col.w-lg.bg-light.lter.b-l.bg-auto
-		div.wrapper			
+		div(style="position:relative;").wrapper			
 			div(style="margin-top:50px;")#zoom-in.text-center
 				a(href="").btn.btn-xs.btn-primary.m-b
 					i.fa.fa-plus
@@ -12,12 +12,15 @@ block content
 				a(href="").btn.btn-xs.btn-primary.m-b
 					i.fa.fa-minus
 			div(style="margin-top:20px;").text-center
-				a(href="").btn.btn-sm.btn-primary.padder-md.m-b New page
+				button(type="button")#new_page_btn.btn.btn-sm.btn-primary.padder-md.m-b New page
 			div(style="margin-top:50px;").text-center
 				input(type="file",style="display:none;")#image_upload
 				label(for="image_upload").btn.btn-sm.btn-primary.padder-md.m-b Upload Image
 			div.text-center
 				div(style="width:150px; height:150px;")#fileDisplayArea.draggable
+			div(style="margin-top:50px;").text-center
+				button(type="button").btn.btn-default
+					i(style="font-size:80px;").fa.fa-trash				
 					
 
 block styles

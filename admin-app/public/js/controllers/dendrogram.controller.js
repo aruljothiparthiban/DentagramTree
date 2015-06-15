@@ -1,5 +1,7 @@
 // Get JSON data
 
+var zoomScale = 1;
+
 function dentrogram(error,treeData){
     // Calculate total nodes, max label length
     var totalNodes = 0;
@@ -93,6 +95,7 @@ function dentrogram(error,treeData){
     // Define the zoom function for the zoomable tree
 
     function zoom() {
+        zoomScale = d3.event.scale;
         svgGroup.attr("transform", 
             "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
     }
@@ -618,7 +621,7 @@ $(function(){
                 img.setAttribute('height','100%')
                 img.src = reader.result;
                 fileDisplayArea.appendChild(img);
-                
+
                 $.ajax({
                     url:'/dendrogram/data',
                     type:'post',
@@ -643,6 +646,40 @@ $(function(){
         else 
         {
             fileDisplayArea.innerHTML = "File not supported!";
+        }
+    });
+    
+    $('#new_page_btn').on('click',function(e){
+        var page = prompt("Please add page name", "Page");
+        if (page != null) {
+            $.ajax({
+                url:'/dendrogram/data',
+                type:'post',
+                data:
+                {
+                    name: page,
+                    type:"page"
+                },
+                catch:false,
+                success:function(data){
+                    console.log(data);
+                    dentrogram(null,data);
+                },
+                error:function(err){
+                    console.log(err);
+                }
+            });
+        }        
+    });
+
+    $('#zoom-in').on('click',function(x){
+        zoomScale +=0.2;
+        document.getElementById('tree-container').style.zoom = zoomScale;
+    });
+    $('#zoom-out').on('click',function(x){        
+        zoomScale -=0.2;
+        if(zoomScale>0.2){
+            document.getElementById('tree-container').style.zoom = zoomScale;
         }
     });
 });
