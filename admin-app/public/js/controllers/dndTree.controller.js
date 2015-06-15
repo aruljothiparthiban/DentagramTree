@@ -25,7 +25,6 @@ treeJSON = d3.json("/static/js/controllers/flare.json", function(error, treeData
     // define a d3 diagonal projection for use by the node paths later on.
     var diagonal = d3.svg.diagonal()
         .projection(function(d) {
-            //return [d.y, d.x];
             return [d.x,d.y];
         });
 
@@ -68,7 +67,6 @@ treeJSON = d3.json("/static/js/controllers/flare.json", function(error, treeData
     // TODO: Pan function, can be better implemented.
 
     function pan(domNode, direction) {
-        console.log('pan method');
         var speed = panSpeed;
         if (panTimer) {
             clearTimeout(panTimer);
@@ -96,7 +94,6 @@ treeJSON = d3.json("/static/js/controllers/flare.json", function(error, treeData
     // Define the zoom function for the zoomable tree
 
     function zoom() {
-        console.log('zoom');
         svgGroup.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
     }
 
@@ -105,7 +102,6 @@ treeJSON = d3.json("/static/js/controllers/flare.json", function(error, treeData
     var zoomListener = d3.behavior.zoom().scaleExtent([0.1, 3]).on("zoom", zoom);
 
     function initiateDrag(d, domNode) {
-        console.log('initiate drag');
         draggingNode = d;
         d3.select(domNode).select('.ghostCircle').attr('pointer-events', 'none');
         d3.selectAll('.ghostCircle').attr('class', 'ghostCircle show');
@@ -158,7 +154,6 @@ treeJSON = d3.json("/static/js/controllers/flare.json", function(error, treeData
     // Define the drag listeners for drag/drop behaviour of nodes.
     dragListener = d3.behavior.drag()
         .on("dragstart", function(d) {
-            console.log('dragstart');
             if (d == root) {
                 return;
             }
@@ -168,7 +163,6 @@ treeJSON = d3.json("/static/js/controllers/flare.json", function(error, treeData
             // it's important that we suppress the mouseover event on the node being dragged. Otherwise it will absorb the mouseover event and the underlying node will not detect it d3.select(this).attr('pointer-events', 'none');
         })
         .on("drag", function(d) {
-            console.log('drag');
             if (d == root) {
                 return;
             }
@@ -307,7 +301,6 @@ treeJSON = d3.json("/static/js/controllers/flare.json", function(error, treeData
     // Function to center node when clicked/dropped so node doesn't get lost when collapsing/moving with large amount of children.
 
     function centerNode(source) {
-        console.log('center node',source);
         scale = zoomListener.scale();
         x = -source.y0;
         y = -source.x0;
@@ -481,11 +474,7 @@ treeJSON = d3.json("/static/js/controllers/flare.json", function(error, treeData
         // Enter any new links at the parent's previous position.
         link.enter().insert("path", "g")
             .attr("class", "link")
-            .attr("d", function(d) {
-                // need to remove
-                if(d.source.name==='query'){
-                    console.log('path',d);    
-                }                
+            .attr("d", function(d) {           
                 var o = {
                     x: source.x0,
                     y: source.y0

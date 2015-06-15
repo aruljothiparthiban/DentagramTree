@@ -20,6 +20,27 @@
         }, {
             "name": "LineSprite",
             "size": 1732
+        }, {
+            "name": "RectSprite",
+            "size": 3623
+        }, {
+            "name": "TextSprite",
+            "size": 10066
         }]
+    }, {
+        "name": "physics",
+        "children": [{
+            "name": "Simulation",
+            "size": 9983
+        }, {
+            "name": "Spring",
+            "size": 2213
+        }, {
+            "name": "SpringForce",
+            "size": 1681
+        }]
+    }, {
+        "name": "scale",
+        "children": []
     }]
 }
