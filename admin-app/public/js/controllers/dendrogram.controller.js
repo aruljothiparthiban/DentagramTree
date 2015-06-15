@@ -1,6 +1,6 @@
 // Get JSON data
 
-var zoomScale = 1;
+var zoomScale = 0.5;
 
 function dentrogram(error,treeData){
     // Calculate total nodes, max label length
@@ -673,13 +673,27 @@ $(function(){
     });
 
     $('#zoom-in').on('click',function(x){
-        zoomScale +=0.2;
-        document.getElementById('tree-container').style.zoom = zoomScale;
-    });
-    $('#zoom-out').on('click',function(x){        
-        zoomScale -=0.2;
-        if(zoomScale>0.2){
-            document.getElementById('tree-container').style.zoom = zoomScale;
+        zoomScale +=0.2;       
+        if(zoomScale<5){
+            $('#tree-container').animate({ 'zoom': zoomScale }, 400);
         }
     });
+    $('#zoom-out').on('click',function(x){  
+        zoomScale -=0.2;       
+        if(zoomScale>0.2){
+            $('#tree-container').animate({ 'zoom': zoomScale }, 400);
+        }
+    });
+
+    $( "#slider-vertical" ).slider({
+      orientation: "vertical",
+      range: "min",
+      min: 0.2,
+      max: 5,
+      value:0.5,
+      slide: function( event, ui ) {
+        $('#tree-container').animate({ 'zoom': ui.value }, 400);
+      }
+    });
+
 });
