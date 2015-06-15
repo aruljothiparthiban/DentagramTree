@@ -1,0 +1,22 @@
+extends ../shared/layout
+
+block content
+	div(id="tree-container").col
+
+	div.col.w-lg.bg-light.lter.b-l.bg-auto
+		div.wrapper
+			div.panel.b-a
+				h4.font-thin.padder Recent Activities
+				ul.list-group
+					li.list-group-item
+						p Welcome
+							a(href="").text-info @Drew Wllon 
+						small.block.text-muted
+							i.fa.fa-fw.fa-clock-o
+							2 minuts ago
+
+
+block styles
+	link(rel='stylesheet', href='/static/lib/angular/ngImgCrop/compile/minified/ng-img-crop.css')
+block scripts	
+		script(src='/static/js/controllers/dndTree.controller.js')

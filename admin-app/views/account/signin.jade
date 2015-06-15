@@ -1,0 +1,18 @@
+
+extends ../shared/account-layout
+
+block content
+	div.m-b-lg
+		div.wrapper.text-center
+			strong Sing in to get in touch
+		form(method='post',action="/account/signin")#login-form.form-validation
+			div.text-danger.wrapper.text-center #{error}
+			div.list-group.list-group-sm
+				div.list-group-item
+					input(type="username", name="username",placeholder="Email", id='username').form-control.no-border.required
+				div.list-group-item
+					input(type="password", name="password",placeholder="Password", id='password').form-control.no-border.required
+			button(type="submit").btn.btn-lg.btn-primary.btn-block Log in
+			div.text-center.m-t.m-b
+				a(href="forgot/password") Forgot password?
+			div.line.line-dashed

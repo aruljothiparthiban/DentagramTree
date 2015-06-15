@@ -1,0 +1,91 @@
+extends ../shared/layout
+
+block content
+	div.col
+		// main header
+		div.bg-light.lter.b-b.wrapper-md
+			div.row
+				div.col-sm-6.col-md-6.col-xs-6
+					h1.m-n.font-thin.h3.text-black #{title}
+				div.col-sm-6.col-md-6.col-xs-6.text-right
+					a(href="users/create").btn.btn-sm.btn-danger.w-xs.font-bold Create
+		div(data-ng-controller="AdminUserCntrl").wrapper-md
+			div.panel.panel-default
+				div.row.wrapper
+					div.col-sm-6.col-xs-6.m-b-xs
+						//div.btn-group
+							//button(type="button",data-ng-disabled="(grid.selectedItems.length===0)").btn.btn-sm.//btn-bg.btn-default
+								//i.fa.fa-trash
+							//button(type="button").btn.btn-sm.btn-bg.btn-default
+								//i.fa.fa-cog
+						select(data-ng-model="grid.action",data-ng-disabled="(grid.selectedItems.length===0)",style="width:100px;").input-sm.form-control.inline.v-middle
+							option(value="none") - Actions -
+							option(value="activate") Activate
+							option(value="deactivate") Deactivate
+						div.btn-group
+							button(type="button",data-ng-click="grid.applyAction()",data-ng-disabled="(grid.action==='none')").btn.btn-sm.btn-bg.btn-default Apply
+					div.col-md-offset-2.col-md-4.col-sm-6.col-xs-6
+						div.input-group.pull-right
+							input(type="text",data-ng-model="grid.searchText",placeholder="Search ...").input-sm.form-control
+							span.input-group-btn
+								button(data-ng-click="grid.paginate()").btn.btn-sm.btn-default
+									i.fa.fa-search
+				div(data-ng-init="grid.load()").table-responsive
+					table.table.table-striped.b-t.b-light
+						colgroup
+							col(width="5%")
+							col(width="20%")
+							col(width="20%")
+							col(width="20%")
+							col(width="15%")
+							col(width="15%")
+							col(width="5%")
+						thead
+							tr
+								th
+									label.i-checks.i-checks-sm.m-b-none
+										input(type="checkbox",data-ng-model="grid.selectedAll",data-ng-change="grid.selectAllRows()")
+										i
+								th Email
+								th First name
+								th Last name							
+								th Status
+								th Updated On
+								th
+						tbody
+							tr(data-ng-repeat="p in grid.items")
+								td
+									label.i-checks.i-checks-sm.m-b-none
+										input(type="checkbox",data-ng-click="grid.selectedRow(p)",data-ng-model="p.selected")
+										i
+								td {{p.email}}
+								td {{p.firstname}}
+								td {{p.lastname}}							
+								td {{p.isactive?'Active':'Deactive'}}
+								td {{p.updatedat | date:'dd/MM/yyyy HH:mm a'}}
+								td 
+									a(href="./users/edit/{{p.userid}}").btn.btn-default.btn-xs Edit						
+
+							tr(data-ng-if="grid.items.length===0")
+								td(colspan="6").text-center
+									small.text-muted.inline.m-t-xs.m-b-xs No users found!
+				footer(data-ng-if="grid.items.length>0").panel-footer
+					div.row
+						div.col-sm-4.hidden-xs
+							select(data-ng-change="grid.paginate()",data-ng-model="grid.pageSize").input-sm.form-control.inline.v-middle.w-xxs
+								option(value="5") 5
+								option(value="10") 10
+								option(value="20") 20
+								option(value="50") 50
+						div.col-sm-4.text-center
+							small.text-muted.inline.m-t-xs.m-b-xs Showing {{grid.getStartIndex()}} - {{grid.getEndIndex()}} of {{grid.count}} items
+						div.col-sm-4.text-right.text-center-xs				
+							div.btn-group
+								button(type="button",data-ng-click="grid.movePrev()",data-ng-disabled="(grid.items.length===grid.count || grid.pageIndex===1)").btn.btn-sm.btn-bg.btn-default
+									i.fa.fa-chevron-left
+								button(type="button",data-ng-click="grid.moveNext()",data-ng-disabled="(grid.getEndIndex()===grid.count)").btn.btn-sm.btn-bg.btn-default
+									i.fa.fa-chevron-right
+
+block scripts
+	script(src='/static/js/controllers/admin-users.js')
+

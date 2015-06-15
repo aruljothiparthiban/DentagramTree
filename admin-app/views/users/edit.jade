@@ -1,0 +1,39 @@
+extends ../shared/layout
+
+block content
+	div.col
+		// main header	
+		div.bg-light.lter.b-b.wrapper-md
+			div.row
+				div.col-sm-6.col-md-6.col-xs-6
+					h1.m-n.font-thin.h3.text-black Admin Users
+				div.col-sm-6.col-md-6.col-xs-6.text-right
+					a(href="/admin/users").btn.btn-sm.btn-default.w-xs.font-bold Go back
+		div.wrapper-md
+			div.panel.panel-default
+				div.panel-heading.font-bold Form
+				div.panel-body
+					form(method="post",action="/admin/users/update").form-horizontal
+						div.form-group
+							label(for="firstname").col-sm-2.control-label First Name
+							div.col-sm-4
+								input(type="hidden",id="userid",name="userid",value=model.userid)
+								input(type="text",id="firstname",name="firstname",value=model.firstname,autofocus).form-control
+						div.form-group
+							label(for="lastname").col-sm-2.control-label Last Name
+							div.col-sm-4
+								input(type="text",id="lastname",name="lastname",value=model.lastname).form-control
+						div.form-group
+							label(for="email").col-sm-2.control-label Email
+							div.col-sm-4
+								input(type="email",id="email",name="email",value=model.email).form-control
+						div.form-group
+							label(for="password").col-sm-2.control-label Password
+							div.col-sm-4
+								input(type="text",id="password",name="password",value=model.password).form-control
+						div.form-group
+							div.col-sm-4.col-sm-offset-2							
+								button(type="submit").btn.btn-primary Update
+								a(href="/admin/users").btn.btn-default.m-l-sm Cancel
+block scripts
+	script(src='/static/js/controllers/admin-users.js')

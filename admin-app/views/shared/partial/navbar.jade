@@ -1,0 +1,82 @@
+div.collapse.pos-rlt.navbar-collapse.box-shadow.bg-white-only
+  // buttons start
+  div.nav.navbar-nav.hidden-xs
+    a(href="#",ui-toggle="app-aside-folded",target=".app").btn.no-shadow.navbar-btn
+      i.fa.fa-dedent.fa-fw.text
+      i.fa.fa-indent.fa-fw.text-active
+    a(href="#",ui-toggle="show",target="#aside-user").btn.no-shadow.navbar-btn
+      i.icon-user.fa-fw
+  // buttons end
+  // SEARDH FORM START
+  form(method="post")#search-form.navbar-form.navbar-form-sm.navbar-left.shift
+   div.form-group
+    div.input-group
+     input(type="text",placeholder="Search ...").form-control.input-sm.bg-light.no-border.rounded.padder
+     span.input-group-btn
+      button(type="subit").btn.btn-sm.bg-light.rounded
+       i.fa.fa-search
+  // SEARCH FORM END
+  // nav bar right start
+  ul.nav.navbar-nav.navbar-right
+    // reminder
+    li.dropdown
+      a(href="#",data-toggle="dropdown").dropdown-toggle
+        i.icon-bell.fa-fw
+        span.visible-xs-inline Notifications
+        span.badge.badge-sm.up.bg-danger.pull-right-xs 2
+        // dropdown
+        div.dropdown-menu.w-xl.animated.fadeInUp
+          div.panel.bg-white
+            div.panel-heading.b-light.bg-light
+              strong You have
+                span 2
+            
+            div.list-group
+              a(href="").list-group-item
+                span.pull-left.m-r.thumb-sm
+                  img(src="/static/img/a0.jpg",alt="...").img-cirlce
+                span.clear.block.m-b-none Use awesome animate.css
+                  br
+                  small.text-muted 10 minutes ago
+
+              a(href="").list-group-item
+                span.pull-left.m-r.thumb-sm
+                  img(src="/static/img/a0.jpg",alt="...").img-cirlce
+                span.clear.block.m-b-none 1.0 initial released
+                  br
+                  small.text-muted 1 hour ago
+
+            div.panel-footer.text-sm
+              a(href="").pull-right
+                i.fa.fa-cog
+              a(href="#notes",data-toggle="class:show animated fadeInRight") See all the notifications	
+    li.dropdown
+      a(href="#",data-toggle="dropdown",aria-expanded="false").dropdown-toggle
+        span.thumb-sm.avatar.pull-right.m-t-n-sm.m-b-n-sm.m-l-sm
+          img(src="",alt="...")
+          i.on.md.b-white.bottom
+        span.hidden-sm.hidden-md 
+        b.caret
+      ul.dropdown-menu.animated.fadeInRight.w
+        li.wrapper.b-b.m-b-sm.bg-light.m-t-n-xs
+          div
+            p 300mb of 500mb used
+          div.progress.progress-xs.m-b-none.dker
+            div.progress-bar.progress-bar-info
+              div(data-toggle="tooltip",data-original-title="50%",style="width: 50%").progress-bar.progress-bar-info
+        li
+          a(href)
+            span.badge.bg-danger.pull-right 2
+            span Settings
+        li
+          a(href="/admin/account/profile") Profile
+        li
+          a(href="") Help
+            span.label.bg-info.pull-right new
+        li.divider
+        li
+          a(href="/admin/account/signout") Logout
+
+
+  // nav bar right end
+  div.form-group
