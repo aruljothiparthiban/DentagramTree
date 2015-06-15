@@ -1,46 +1,37 @@
 {
     "name": "flare",
+    "type":"page",
     "children": [{
         "name": "analytics",
+        "type":"page",
         "children": [{
             "name": "cluster",
             "children": [{
                 "name": "AgglomerativeCluster",
-                "size": 3938
+                "type":"content",
+                "imageUrl":"https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcR8LRL8jx73N5ft9nzZVDttb5jX6PeTFeKd6zK-5GSDd1iRcn6l"
             }, {
                 "name": "CommunityStructure",
-                "size": 3812
+                "type":"content",
+                "imageUrl":"https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcSY8nNb4pul-75tR8RIWMdevrQ0sL9iE2MaKWgMkrrG1UihxNM6QA"
             }]
         }]
     }, {
         "name": "display",
+        "type":"page",
         "children": [{
             "name": "DirtySprite",
-            "size": 8833
+            "type":"content",
+            "imageUrl":"https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcTqNn1H8m_0HSsY2di4Rb7vMg39tMxb3UtldHP8O67Ba3BMJmjL"
         }, {
             "name": "LineSprite",
-            "size": 1732
-        }, {
-            "name": "RectSprite",
-            "size": 3623
-        }, {
-            "name": "TextSprite",
-            "size": 10066
+            "type":"content",
+            "imageUrl":"https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcRiSEnuxEalz2KDndVo_9QXmuPdGFNCGMpJnq3sBsFfzRrRk1QW"
+        },
+        {
+            "name": "LineSprite1",
+            "type":"content",
+            "imageUrl":"https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcRiSEnuxEalz2KDndVo_9QXmuPdGFNCGMpJnq3sBsFfzRrRk1QW"
         }]
-    }, {
-        "name": "physics",
-        "children": [{
-            "name": "Simulation",
-            "size": 9983
-        }, {
-            "name": "Spring",
-            "size": 2213
-        }, {
-            "name": "SpringForce",
-            "size": 1681
-        }]
-    }, {
-        "name": "scale",
-        "children": []
     }]
 }

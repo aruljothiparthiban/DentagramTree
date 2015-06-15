@@ -9,13 +9,11 @@
             "children": [{
                 "name": "AgglomerativeCluster",
                 "type":"content",
-                "imageUrl":"https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcR8LRL8jx73N5ft9nzZVDttb5jX6PeTFeKd6zK-5GSDd1iRcn6l",
-                "size": 3938
+                "imageUrl":"https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcR8LRL8jx73N5ft9nzZVDttb5jX6PeTFeKd6zK-5GSDd1iRcn6l"
             }, {
                 "name": "CommunityStructure",
                 "type":"content",
-                "imageUrl":"https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcSY8nNb4pul-75tR8RIWMdevrQ0sL9iE2MaKWgMkrrG1UihxNM6QA",
-                "size": 3812
+                "imageUrl":"https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcSY8nNb4pul-75tR8RIWMdevrQ0sL9iE2MaKWgMkrrG1UihxNM6QA"
             }]
         }]
     }, {
@@ -24,13 +22,11 @@
         "children": [{
             "name": "DirtySprite",
             "type":"content",
-            "imageUrl":"https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcTqNn1H8m_0HSsY2di4Rb7vMg39tMxb3UtldHP8O67Ba3BMJmjL",
-            "size": 8833
+            "imageUrl":"https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcTqNn1H8m_0HSsY2di4Rb7vMg39tMxb3UtldHP8O67Ba3BMJmjL"
         }, {
             "name": "LineSprite",
             "type":"content",
-            "imageUrl":"https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcRiSEnuxEalz2KDndVo_9QXmuPdGFNCGMpJnq3sBsFfzRrRk1QW",
-            "size": 1732
+            "imageUrl":"https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcRiSEnuxEalz2KDndVo_9QXmuPdGFNCGMpJnq3sBsFfzRrRk1QW"
         }]
     }]
 }

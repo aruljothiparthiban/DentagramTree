@@ -17,11 +17,10 @@ block content
 				input(type="file",style="display:none;")#image_upload
 				label(for="image_upload").btn.btn-sm.btn-primary.padder-md.m-b Upload Image
 			div.text-center
-				div(style="width:150px; height:150px;").draggable
-					img(width="100%",height="100%",src="https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcRiSEnuxEalz2KDndVo_9QXmuPdGFNCGMpJnq3sBsFfzRrRk1QW")
+				div(style="width:150px; height:150px;")#fileDisplayArea.draggable
 					
 
 block styles
 	link(rel='stylesheet', href='/static/lib/angular/ngImgCrop/compile/minified/ng-img-crop.css')
 block scripts	
-		script(src='/static/js/controllers/dndTree.controller.js')
+		script(src='/static/js/controllers/dendrogram.controller.js')

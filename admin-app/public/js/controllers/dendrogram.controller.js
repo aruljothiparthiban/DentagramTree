@@ -1,6 +1,6 @@
 // Get JSON data
-treeJSON = d3.json("/static/js/controllers/flare.json", function(error, treeData) {
 
+function dentrogram(error,treeData){
     // Calculate total nodes, max label length
     var totalNodes = 0;
     var maxLabelLength = 0;
@@ -15,7 +15,7 @@ treeJSON = d3.json("/static/js/controllers/flare.json", function(error, treeData
     var duration = 750;
     var root;
     // size of the diagram
-    var viewerWidth = $('#tree-container').width();
+    var viewerWidth = $('#tree-container').empty().width();
     var viewerHeight = $(document).height();
 
     var tree = d3.layout.tree()
@@ -93,7 +93,6 @@ treeJSON = d3.json("/static/js/controllers/flare.json", function(error, treeData
     // Define the zoom function for the zoomable tree
 
     function zoom() {
-        console.log(d3.event.translate);
         svgGroup.attr("transform", 
             "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
     }
@@ -415,7 +414,6 @@ treeJSON = d3.json("/static/js/controllers/flare.json", function(error, treeData
                 if(d.type==="content" && d.imageUrl){
                     return d.imageUrl;
                 }
-                //console.log(source);
             });
 
         nodeEnter.append("text")
@@ -567,16 +565,84 @@ treeJSON = d3.json("/static/js/controllers/flare.json", function(error, treeData
       activeClass: "ui-state-hover",
       hoverClass: "ui-state-active",
       drop: function( event, ui ) {
-        console.log('drop');
         $( this )
           .addClass( "ui-state-highlight" )
           .find( "p" )
             .html( "Dropped!" );
       }
     });
-});
+};
+
+function generateRandom(){
+        var length=12;
+        var mask = '';
+        mask += 'abcdefghijklmnopqrstuvwxyz';
+        mask += 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        mask += '0123456789';
+        var result = '';
+        for (var i = length; i > 0; --i) result += mask[Math.round(Math.random() * (mask.length - 1))];
+        return result;
+};
+
+var getLastNode = function(data){
+    var child =  null;
+    if(data.children && data.children.length>0){
+        child = data.children[data.children.length-1];
+    }
+    if(data.type==='page'){     
+        return getLastNode(child);
+    }
+    return child;        
+};
 
 
 $(function(){
-    console.log('document ready');
+    var jsonData = [];
+    d3.json("/dendrogram/data", function(error, treeData) {
+        jsonData = treeData;
+        dentrogram(error,jsonData);
+    });
+
+    $('#image_upload').on('change',function(evt){
+        var fileDisplayArea = document.getElementById('fileDisplayArea');
+        var imageType = /image.*/;
+        var file=evt.currentTarget.files[0];
+        if (file.type.match(imageType)) {
+            console.log('change');
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                fileDisplayArea.innerHTML = "";
+                var img = new Image();
+                img.style.display ='none';
+                img.setAttribute('width','100%');
+                img.setAttribute('height','100%')
+                img.src = reader.result;
+                fileDisplayArea.appendChild(img);
+                
+                $.ajax({
+                    url:'/dendrogram/data',
+                    type:'post',
+                    data:
+                    {
+                        name: generateRandom(),
+                        type:"content",
+                        imageUrl : img.src
+                    },
+                    catch:false,
+                    success:function(data){
+                        console.log(data);
+                        dentrogram(null,data);
+                    },
+                    error:function(err){
+                        console.log(err);
+                    }
+                });
+            }
+            reader.readAsDataURL(file); 
+        } 
+        else 
+        {
+            fileDisplayArea.innerHTML = "File not supported!";
+        }
+    });
 });
