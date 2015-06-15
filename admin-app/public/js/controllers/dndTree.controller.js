@@ -14,7 +14,6 @@ treeJSON = d3.json("/static/js/controllers/flare.json", function(error, treeData
     var i = 0;
     var duration = 750;
     var root;
-
     // size of the diagram
     var viewerWidth = $('#tree-container').width();
     var viewerHeight = $(document).height();
@@ -94,12 +93,13 @@ treeJSON = d3.json("/static/js/controllers/flare.json", function(error, treeData
     // Define the zoom function for the zoomable tree
 
     function zoom() {
-        svgGroup.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
+        console.log(d3.event.translate);
+        svgGroup.attr("transform", 
+            "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
     }
 
-
     // define the zoomListener which calls the zoom function on the "zoom" event constrained within the scaleExtents
-    var zoomListener = d3.behavior.zoom().scaleExtent([0.1, 3]).on("zoom", zoom);
+    var zoomListener = d3.behavior.zoom().scaleExtent([0.1, 5]).on("zoom", zoom);
 
     function initiateDrag(d, domNode) {
         draggingNode = d;
@@ -306,7 +306,7 @@ treeJSON = d3.json("/static/js/controllers/flare.json", function(error, treeData
         y = -source.x0;
         //x = x * scale + viewerWidth / 2;
         //y = y * scale + viewerHeight / 2;
-        x = x * scale + viewerHeight / 2;
+        x = x * scale + viewerHeight / 4;
         y = y * scale + viewerWidth / 2;
         d3.select('g').transition()
             .duration(duration)
@@ -356,16 +356,15 @@ treeJSON = d3.json("/static/js/controllers/flare.json", function(error, treeData
             }
         };
         childCount(0, root);
-        var newHeight = d3.max(levelWidth) * 150; // 25 pixels per line  
+        var newHeight = d3.max(levelWidth) * 450; // 25 pixels per line  
         tree = tree.size([newHeight, viewerWidth]);
 
         // Compute the new tree layout.
         var nodes = tree.nodes(root).reverse(),
             links = tree.links(nodes);
-
         // Set widths between levels based on maxLabelLength.
         nodes.forEach(function(d) {
-            d.y = (d.depth * (maxLabelLength * 10)); //maxLabelLength * 10px
+            d.y = (d.depth * (maxLabelLength * 10)); //maxLabelLength * 10px          
             // alternatively to keep a fixed scale one can set a fixed depth per level
             // Normalize for fixed-depth by commenting out below line
             // d.y = (d.depth * 500); //500px per level.
@@ -386,17 +385,46 @@ treeJSON = d3.json("/static/js/controllers/flare.json", function(error, treeData
             })
             .on('click', click);
 
-        nodeEnter.append("circle")
+        /*nodeEnter.append("circle")
             .attr('class', 'nodeCircle')
             .attr("r", 0)
             .style("fill", function(d) {
                 return d._children ? "lightsteelblue" : "#fff";
+            });*/
+        nodeEnter.append("rect")
+            //.attr('class', 'nodeCircle')
+            .attr("width", 200)
+            .attr("height",function(d){
+                if(d.type==="content" && d.imageUrl){
+                    return 100;
+                }
+                return 40;
+            })
+            .attr("x", -100)
+            .style("fill", function(d) {
+                if(d.type==="content" && d.imageUrl){
+                    return "transparent";
+                }
+                return d._children ? "lightsteelblue" : "#777";
+            });
+         nodeEnter.append("image")
+            .attr("width", 200)
+            .attr("height", 100)
+            .attr("x", -100)
+            .attr("xlink:href",function(d){
+                if(d.type==="content" && d.imageUrl){
+                    return d.imageUrl;
+                }
+                //console.log(source);
             });
 
         nodeEnter.append("text")
             .attr("x", function(d) {
-                return d.children || d._children ? -10 : 10;
+                //return -100;
+                return 0;
+                //return d.children || d._children ? -10 : 10;
             })
+            .attr("y",20)
             .attr("dy", ".35em")
             .attr('class', 'nodeText')
             .attr("text-anchor", function(d) {
@@ -424,12 +452,17 @@ treeJSON = d3.json("/static/js/controllers/flare.json", function(error, treeData
         // Update the text to reflect whether node has children or not.
         node.select('text')
             .attr("x", function(d) {
-                return d.children || d._children ? -10 : 10;
+                var width = 0;
+                width+=this.getComputedTextLength()/2;
+                return width;
             })
             .attr("text-anchor", function(d) {
                 return d.children || d._children ? "end" : "start";
             })
             .text(function(d) {
+                if(d.type==="content" && d.imageUrl){
+                    return "";
+                }
                 return d.name;
             });
 
@@ -474,15 +507,16 @@ treeJSON = d3.json("/static/js/controllers/flare.json", function(error, treeData
         // Enter any new links at the parent's previous position.
         link.enter().insert("path", "g")
             .attr("class", "link")
-            .attr("d", function(d) {           
+            .attr("d", function(d) {      
                 var o = {
                     x: source.x0,
                     y: source.y0
                 };
-                return diagonal({
+                var pathValue = diagonal({
                     source: o,
                     target: o
                 });
+                return pathValue;
             });
 
         // Transition links to their new position.
@@ -493,15 +527,16 @@ treeJSON = d3.json("/static/js/controllers/flare.json", function(error, treeData
         // Transition exiting nodes to the parent's new position.
         link.exit().transition()
             .duration(duration)
-            .attr("d", function(d) {
+            .attr("d", function(d) {                
                 var o = {
                     x: source.x,
                     y: source.y
                 };
-                return diagonal({
+                var pathValue =  diagonal({
                     source: o,
                     target: o
                 });
+                return pathValue;
             })
             .remove();
 
@@ -523,4 +558,25 @@ treeJSON = d3.json("/static/js/controllers/flare.json", function(error, treeData
     // Layout the tree initially and center on the root node.
     update(root);
     centerNode(root);
+    $( ".draggable" ).draggable({
+        revert: true,
+        appendTo: ".node"
+    });
+    $( ".node" ).droppable({
+      accept: ".draggable",
+      activeClass: "ui-state-hover",
+      hoverClass: "ui-state-active",
+      drop: function( event, ui ) {
+        console.log('drop');
+        $( this )
+          .addClass( "ui-state-highlight" )
+          .find( "p" )
+            .html( "Dropped!" );
+      }
+    });
+});
+
+
+$(function(){
+    console.log('document ready');
 });
