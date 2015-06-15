@@ -16,7 +16,7 @@ treeJSON = d3.json("/static/js/controllers/flare.json", function(error, treeData
     var root;
 
     // size of the diagram
-    var viewerWidth = $(document).width();
+    var viewerWidth = $('#tree-container').width();
     var viewerHeight = $(document).height();
 
     var tree = d3.layout.tree()
@@ -96,6 +96,7 @@ treeJSON = d3.json("/static/js/controllers/flare.json", function(error, treeData
     // Define the zoom function for the zoomable tree
 
     function zoom() {
+        console.log('zoom');
         svgGroup.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
     }
 
@@ -104,6 +105,7 @@ treeJSON = d3.json("/static/js/controllers/flare.json", function(error, treeData
     var zoomListener = d3.behavior.zoom().scaleExtent([0.1, 3]).on("zoom", zoom);
 
     function initiateDrag(d, domNode) {
+        console.log('initiate drag');
         draggingNode = d;
         d3.select(domNode).select('.ghostCircle').attr('pointer-events', 'none');
         d3.selectAll('.ghostCircle').attr('class', 'ghostCircle show');
@@ -156,6 +158,7 @@ treeJSON = d3.json("/static/js/controllers/flare.json", function(error, treeData
     // Define the drag listeners for drag/drop behaviour of nodes.
     dragListener = d3.behavior.drag()
         .on("dragstart", function(d) {
+            console.log('dragstart');
             if (d == root) {
                 return;
             }
@@ -165,6 +168,7 @@ treeJSON = d3.json("/static/js/controllers/flare.json", function(error, treeData
             // it's important that we suppress the mouseover event on the node being dragged. Otherwise it will absorb the mouseover event and the underlying node will not detect it d3.select(this).attr('pointer-events', 'none');
         })
         .on("drag", function(d) {
+            console.log('drag');
             if (d == root) {
                 return;
             }
@@ -303,16 +307,21 @@ treeJSON = d3.json("/static/js/controllers/flare.json", function(error, treeData
     // Function to center node when clicked/dropped so node doesn't get lost when collapsing/moving with large amount of children.
 
     function centerNode(source) {
+        console.log('center node',source);
         scale = zoomListener.scale();
         x = -source.y0;
         y = -source.x0;
-        x = x * scale + viewerWidth / 2;
-        y = y * scale + viewerHeight / 2;
+        //x = x * scale + viewerWidth / 2;
+        //y = y * scale + viewerHeight / 2;
+        x = x * scale + viewerHeight / 2;
+        y = y * scale + viewerWidth / 2;
         d3.select('g').transition()
             .duration(duration)
-            .attr("transform", "translate(" + x + "," + y + ")scale(" + scale + ")");
+            .attr("transform", "translate(" + y + "," + x + ")scale(" + scale + ")");
+            //.attr("transform", "translate(" + x + "," + y + ")scale(" + scale + ")");
         zoomListener.scale(scale);
-        zoomListener.translate([x, y]);
+        //zoomListener.translate([x, y]);
+        zoomListener.translate([y,x]);
     }
 
     // Toggle children function
@@ -354,7 +363,7 @@ treeJSON = d3.json("/static/js/controllers/flare.json", function(error, treeData
             }
         };
         childCount(0, root);
-        var newHeight = d3.max(levelWidth) * 25; // 25 pixels per line  
+        var newHeight = d3.max(levelWidth) * 150; // 25 pixels per line  
         tree = tree.size([newHeight, viewerWidth]);
 
         // Compute the new tree layout.
@@ -433,7 +442,7 @@ treeJSON = d3.json("/static/js/controllers/flare.json", function(error, treeData
 
         // Change the circle fill depending on whether it has children and is collapsed
         node.select("circle.nodeCircle")
-            .attr("r", 4.5)
+            .attr("r", 10) // todo
             .style("fill", function(d) {
                 return d._children ? "lightsteelblue" : "#fff";
             });
@@ -473,6 +482,10 @@ treeJSON = d3.json("/static/js/controllers/flare.json", function(error, treeData
         link.enter().insert("path", "g")
             .attr("class", "link")
             .attr("d", function(d) {
+                // need to remove
+                if(d.source.name==='query'){
+                    console.log('path',d);    
+                }                
                 var o = {
                     x: source.x0,
                     y: source.y0
